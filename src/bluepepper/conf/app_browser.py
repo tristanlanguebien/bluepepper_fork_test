@@ -43,7 +43,7 @@ def is_binary(path: Path) -> bool:
     return not is_text(path)
 
 
-def is_aquarium_available(path: Path) -> bool:
+def is_aquarium_available() -> bool:
     return "aquarium" in PROJECT_SETTINGS.production_trackers
 
 
@@ -331,11 +331,13 @@ def get_tool_config() -> AppConfig:
         entity.add_document_action(asset_copy_identifier_action)
         entity.add_document_action(copy_id_action)
         entity.add_document_action(copy_doc_action)
-        entity.add_document_action(asset_show_in_aquarium_action)
+        if is_aquarium_available():
+            entity.add_document_action(asset_show_in_aquarium_action)
         entity.add_document_action(asset_document_help_me_action)
         entity.add_document_action(asset_add_tag_action)
         entity.add_document_action(asset_remove_tag_action)
-        entity.add_document_action(shot_show_in_aquarium_action)
+        if is_aquarium_available():
+            entity.add_document_action(shot_show_in_aquarium_action)
         entity.add_document_action(shot_fetch_breakdownlist_action)
         entity.add_document_action(shot_document_help_me_action)
         entity.add_document_action(shot_add_tag_action)
