@@ -1,13 +1,19 @@
+import os
+from pathlib import Path
+
 from lucent import Codex, Convention, Conventions, Rule, Rules
+
+PROJECT_ROOT = os.environ.get("BLUEPEPPER_PROJECT_ROOT")
+if not PROJECT_ROOT:
+    root_dir = os.environ["BLUEPEPPER_ROOT"]
+    PROJECT_ROOT = Path(root_dir).parent.joinpath(".project_root").as_posix()
 
 
 class MyRules(Rules):
     default = Rule(r"[a-zA-Z0-9]+")
     extension = Rule(r"[a-zA-Z0-9]+", examples=["mp3", "png", "mov"])
     project = Rule(r"[a-zA-Z]+", examples=["mySuperProject"])
-    asset = Rule(
-        r"([a-z]+)([A-Z][a-z]*)*", examples=["peach", "redApple", "philip", "cassie"]
-    )
+    asset = Rule(r"([a-z]+)([A-Z][a-z]*)*", examples=["peach", "redApple", "philip", "cassie"])
     type = Rule(r"[a-z]+", examples=["prp", "chr", "elem"])
     season = Rule(r"s\d{3}", examples=["s001"])
     episode = Rule(r"ep\d{3}", examples=["ep001"])
@@ -16,15 +22,13 @@ class MyRules(Rules):
     version = Rule(r"\d{3}", examples=["001", "002", "003"])
     frame = Rule(r"\d{4}|#{4}|%04d", examples=["0001", "####", "%04d"])
     dcc = Rule(r"[a-z]+", examples=["maya", "blender", "nuke"])
-    description = Rule(
-        r"[a-zA-Z0-9]+", examples=["doingStuff", "startWork", "fixingSomething2"]
-    )
+    description = Rule(r"[a-zA-Z0-9]+", examples=["doingStuff", "startWork", "fixingSomething2"])
     tag = Rule(r"[a-zA-Z0-9]+", examples=["important", "yolo"])
 
 
 class MyConventions(Conventions):
     # Project
-    project_root = Convention("//srv-bc-fs1/bluepepper")
+    project_root = Convention(PROJECT_ROOT)
 
     # Configuration for entity creation
     asset_identifier = Convention("{asset}")
@@ -39,32 +43,16 @@ class MyConventions(Conventions):
     aquarium_shot = Convention("shots/{season}/{episode}/{shot}")
 
     # Assets
-    asset_work_dir = Convention(
-        "{@project_root}/assetWorkspace/{type}/{asset}/{task}/{dcc}"
-    )
-    asset_workfile = Convention(
-        "{@asset_work_dir}/{asset}_{task}_v{version}_{description}.{extension}"
-    )
-    asset_modeling_workfile = Convention(
-        "{@asset_workfile}", fixed_fields={"task": "mdl"}
-    )
-    asset_surfacing_workfile = Convention(
-        "{@asset_workfile}", fixed_fields={"task": "sur"}
-    )
-    asset_texturing_workfile = Convention(
-        "{@asset_workfile}", fixed_fields={"task": "tex"}
-    )
-    asset_rigging_workfile = Convention(
-        "{@asset_workfile}", fixed_fields={"task": "rig"}
-    )
-    asset_grooming_workfile = Convention(
-        "{@asset_workfile}", fixed_fields={"task": "gro"}
-    )
+    asset_work_dir = Convention("{@project_root}/assetWorkspace/{type}/{asset}/{task}/{dcc}")
+    asset_workfile = Convention("{@asset_work_dir}/{asset}_{task}_v{version}_{description}.{extension}")
+    asset_modeling_workfile = Convention("{@asset_workfile}", fixed_fields={"task": "mdl"})
+    asset_surfacing_workfile = Convention("{@asset_workfile}", fixed_fields={"task": "sur"})
+    asset_texturing_workfile = Convention("{@asset_workfile}", fixed_fields={"task": "tex"})
+    asset_rigging_workfile = Convention("{@asset_workfile}", fixed_fields={"task": "rig"})
+    asset_grooming_workfile = Convention("{@asset_workfile}", fixed_fields={"task": "gro"})
     asset_fx_workfile = Convention("{@asset_workfile}", fixed_fields={"task": "afx"})
     asset_anim_workfile = Convention("{@asset_workfile}", fixed_fields={"task": "ani"})
-    asset_assembly_workfile = Convention(
-        "{@asset_workfile}", fixed_fields={"task": "asb"}
-    )
+    asset_assembly_workfile = Convention("{@asset_workfile}", fixed_fields={"task": "asb"})
 
     # Asset maya
     asset_modeling_workfile_maya = Convention(
@@ -72,12 +60,8 @@ class MyConventions(Conventions):
     )
 
     # Shots
-    shot_work_dir = Convention(
-        "{@project_root}/shots/{season}/{episode}/{shot}/{task}/work"
-    )
-    shot_workfile = Convention(
-        "{@shot_work_dir}/{@shot_identifier}_{task}_v{version}_{description}.{extension}"
-    )
+    shot_work_dir = Convention("{@project_root}/shots/{season}/{episode}/{shot}/{task}/work")
+    shot_workfile = Convention("{@shot_work_dir}/{@shot_identifier}_{task}_v{version}_{description}.{extension}")
     shot_layout_workfile = Convention(
         "{@shot_workfile}",
         fixed_fields={"task": "lay", "dcc": "maya", "extension": "ma"},
@@ -137,7 +121,5 @@ codex = MyCodex()
 
 if __name__ == "__main__":
     # Test your codex here
-    for i in codex.convs.asset_modeling_workfile_blender.generate_examples(
-        fields={"asset": "yolo"}, num=15
-    ):
+    for i in codex.convs.asset_modeling_workfile_blender.generate_examples(fields={"asset": "yolo"}, num=15):
         print(i)
