@@ -1,0 +1,17 @@
+[project]
+name = "bluepepper"
+version = "0.0.1"
+description = "Pipeline application designed for 2D/3D animation studios"
+readme = "README.md"
+authors = [
+    { name = "Tristan Languebien", email = "tristan.languebien@bigcompany.fr" }
+]
+requires-python = ">=3.9"
+dependencies = []
+
+[project.scripts]
+bluepepper = "bluepepper:main"
+
+[build-system]
+requires = ["uv_build>=0.10.11,<0.11.0"]
+build-backend = "uv_build"

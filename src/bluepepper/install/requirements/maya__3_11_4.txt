@@ -1,0 +1,7 @@
+lucent-codex
+QtPy
+QtAwesome
+pymongo
+
+# Production trackers
+aquarium-python-api

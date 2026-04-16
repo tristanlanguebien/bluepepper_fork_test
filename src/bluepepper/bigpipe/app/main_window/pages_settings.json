@@ -1,0 +1,28 @@
+[
+    {
+        "name" : "Settings",
+        "icon" : "ri.settings-4-fill",
+        "icon_size" : 1.0,
+        "module" : "bluepepper.tools.demo.demo_widgets",
+        "class" : "DemoWidgetQtDesigner",
+        "tooltip" : "Edit BluePepper's settings"
+    },
+    {
+        "name" : "Documentation",
+        "icon" : "mdi.book-information-variant",
+        "icon_size" : 1.0,
+        "module" : "bluepepper",
+        "function" : "open_documentation",
+        "tooltip" : "Wanna be stylish ? Read the manual !",
+        "is_widget" : false
+    },
+    {
+        "name" : "Console",
+        "icon" : "ri.code-box-fill",
+        "icon_size" : 1.0,
+        "module" : "bluepepper.console",
+        "function" : "toggle_console",
+        "tooltip" : "Show/hides the system console",
+        "is_widget" : false
+    }
+]

@@ -1,0 +1,32 @@
+lucent-codex
+PyYAML
+PySide6
+QtPy
+QtAwesome
+fastapi
+uvicorn
+pymongo
+keyring
+ldap3
+pyperclip
+OpenImageIO
+numpy
+pywin32
+psutil
+pynput
+Pillow
+Unidecode
+webcolors
+pandas
+openpyxl
+discord.py
+opencolorio
+watchdog
+windows-toasts
+
+# Production trackers
+aquarium-python-api
+
+# Dev stuff
+ruff
+bump2version

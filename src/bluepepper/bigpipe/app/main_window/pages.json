@@ -1,0 +1,26 @@
+[
+    {
+        "name" : "Launcher",
+        "icon" : "mdi6.rocket-launch",
+        "icon_size" : 1.0,
+        "module" : "bluepepper.tools.launcher.launcher_widget",
+        "class" : "LauncherWidget",
+        "tooltip" : "Open you applications and tools"
+    },
+    {
+        "name" : "Browse",
+        "icon" : "ph.browsers-fill",
+        "icon_size" : 1.0,
+        "module" : "bluepepper.tools.browser.browser_main_app_widget",
+        "class" : "MainAppBrowserWidget",
+        "tooltip" : "Browse your files"
+    },
+    {
+        "name" : "EntityCreator",
+        "icon" : "mdi6.sticker-plus-outline",
+        "icon_size" : 1.0,
+        "module" : "bluepepper.tools.entitycreator.entitycreator_widget",
+        "class" : "EntityCreatorWidget",
+        "tooltip" : "Create new assets/shots"
+    }
+]
