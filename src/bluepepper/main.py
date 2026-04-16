@@ -18,9 +18,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, NoReturn
 
+from conf.project import ProjectSettings
 from install.install import BluePepperInstaller
-
-from bluepepper.conf.project import Settings
 
 
 class BluePepperIgniter:
@@ -261,7 +260,7 @@ def configure_console_window() -> None:
         This function is Windows-specific and uses ctypes to call
         Win32 API functions.
     """
-    ctypes.windll.kernel32.SetConsoleTitleW(f"BluePepper - {Settings.project_name} (Console)")
+    ctypes.windll.kernel32.SetConsoleTitleW(f"BluePepper - {ProjectSettings.project_name} (Console)")
 
     hwnd: int = ctypes.windll.kernel32.GetConsoleWindow()
     icon: Path = Path(__file__).with_name("icon.ico")
@@ -280,7 +279,7 @@ def configure_console_window() -> None:
     ctypes.windll.user32.SendMessageW(hwnd, WM_SETICON, ICON_SMALL, hicon)
 
     # Set app ID
-    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(f"bluepepper.{Settings.project_name}")
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(f"bluepepper.{ProjectSettings.project_name}")
 
 
 def main():
