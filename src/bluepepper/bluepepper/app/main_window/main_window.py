@@ -49,6 +49,7 @@ class BluePepperApp(FramelessMainWindow):
         self._setup_ui()
         self._setup_signals()
         self._setup_fastapi()
+        self.setStyleSheet("border:none")
 
         self.click_timer = QTimer(self)
         self.click_timer.setSingleShot(True)
