@@ -37,7 +37,8 @@ def show_splash_screen(update: bool = False) -> bool:
     app = QApplication(sys.argv)
     splash = BluePepperSplash(update)
     splash.show()
-    splash.run_tasks()
+    QTimer.singleShot(2000, splash.run_tasks)
+
     app.exec()
     return splash.success
 
