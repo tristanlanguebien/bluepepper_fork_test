@@ -3,6 +3,10 @@ from __future__ import annotations
 import logging
 import sys
 
+from conf.app_launcher import (
+    DefaultLauncherConfig,
+    LauncherItem,
+)
 from qtpy.QtCore import QSize
 from qtpy.QtGui import QIcon
 from qtpy.QtWidgets import (
@@ -16,10 +20,6 @@ from qtpy.QtWidgets import (
 from bluepepper.gui.utils import format_widgets, get_icon, get_stylesheet
 from bluepepper.helpers.run_callable import run_callable
 from bluepepper.logger import init_logging
-from bluepepper.tools.launcher.launcher_config import (
-    DefaultLauncherConfig,
-    LauncherItem,
-)
 from bluepepper.tools.launcher.ui_launcher_widget import Ui_launcher_widget
 
 
