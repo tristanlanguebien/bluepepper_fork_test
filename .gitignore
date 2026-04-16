@@ -209,3 +209,7 @@ __marimo__/
 
 # VScode settings
 .vscode
+
+# Files created by the installation
+.editable_mode
+*.lnk
