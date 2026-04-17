@@ -2,8 +2,8 @@
 BluePepper is a pipeline application designed for 2D/3D animation studios.
 
 # Table of Contents
-- [A](A)
-- [F](#F)
+- [A](a)
+- [F](#f)
 
 
 # A
