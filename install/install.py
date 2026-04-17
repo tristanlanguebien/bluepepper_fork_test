@@ -19,8 +19,6 @@ from pathlib import Path
 from typing import Any, List, TypeVar
 from urllib.request import urlopen
 
-F = TypeVar("F", bound=Callable[..., Any])
-
 
 def _main(
     update_repository: bool = False,
@@ -50,7 +48,7 @@ def _main(
         sys.exit(1)
 
 
-def timeit(func: F) -> F:
+def timeit(func):
     """Decorator to measure and log function execution time.
 
     Args:

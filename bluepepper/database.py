@@ -8,11 +8,12 @@ from pathlib import Path
 from typing import Any
 
 from bson.objectid import ObjectId
-from conf.database import DatabaseSettings
-from conf.lucent_config import codex
 from pymongo import MongoClient, errors
 from pymongo.synchronous.collection import Collection
 from pymongo.synchronous.database import Database
+
+from conf.database import DatabaseSettings
+from conf.lucent_config import codex
 
 # TODO : add retries mechanisms with the tenacity package
 
@@ -174,7 +175,7 @@ class BigMongoClient(MongoClient):
     def _ensure_local_mongodb_running(self) -> None:
         """Start a local ``mongod`` process if one is not already running.
 
-        The database files are stored in a ``.database`` directory located
+        The database files are stored in a ``.bluepepper_database`` directory located
         next to ``BLUEPEPPER_ROOT``.  The ``mongod`` executable is expected at
         ``$BLUEPEPPER_ROOT/bin/mongodb/mongod.exe``.
 
@@ -192,7 +193,11 @@ class BigMongoClient(MongoClient):
         logging.info("Starting local MongoDB server")
         root_dir = Path(os.environ["BLUEPEPPER_ROOT"])
         mongod_path = root_dir / "bin/mongodb/mongod.exe"
-        db_path = root_dir.parent / ".database"
+        db_path = root_dir.parent / ".bluepepper_database"
+        print("AAAA")
+        print(os.environ["BLUEPEPPER_ROOT"])
+        print(root_dir)
+        print(db_path)
         db_path.mkdir(parents=True, exist_ok=True)
 
         command = [str(mongod_path), "--dbpath", str(db_path), "--port", "27017"]

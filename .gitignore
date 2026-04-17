@@ -145,6 +145,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+venvs/
 
 # Spyder project settings
 .spyderproject
@@ -220,7 +221,7 @@ __marimo__/
 .temp/
 
 # Local mongodb database
-.database/
+.bluepepper_database/
 
 # Local project_root
 .project_root/

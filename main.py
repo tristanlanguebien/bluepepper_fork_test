@@ -50,7 +50,7 @@ class BluePepperIgniter:
         """
         self.uuid: str = uuid.uuid4().hex
         self.timestamp: datetime = datetime.now()
-        self.root_dir: Path = Path(__file__).parent
+        self.root_dir: Path = Path(__file__).resolve().parent
         self.shell: bool = shell
         self.console: bool = console
         self.log_level: str = log_level.upper()

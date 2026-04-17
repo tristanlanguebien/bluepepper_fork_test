@@ -1,4 +1,7 @@
-"""Create Windows shortcuts programmatically."""
+"""
+Create Windows shortcuts programmatically.
+Please note that this scripts requires pywin32, therefore, it must be launched from the core virtual environment
+"""
 
 import argparse
 import logging
