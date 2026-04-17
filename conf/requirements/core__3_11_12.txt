@@ -1,4 +1,5 @@
 lucent-codex
+lucent-watcher
 PyYAML
 PySide6
 QtPy
