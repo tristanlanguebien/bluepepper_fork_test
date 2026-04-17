@@ -220,9 +220,5 @@ __marimo__/
 .logs/
 .temp/
 
-
-# Local project_root
-.project_root/
-
 # Sandbox files
 sandbox.py
