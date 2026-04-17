@@ -175,7 +175,7 @@ class BigMongoClient(MongoClient):
     def _ensure_local_mongodb_running(self) -> None:
         """Start a local ``mongod`` process if one is not already running.
 
-        The database files are stored in a ``.bluepepper_database`` directory located
+        The database files are stored in a ``bluepepper_database`` directory located
         next to ``BLUEPEPPER_ROOT``.  The ``mongod`` executable is expected at
         ``$BLUEPEPPER_ROOT/bin/mongodb/mongod.exe``.
 
@@ -193,11 +193,7 @@ class BigMongoClient(MongoClient):
         logging.info("Starting local MongoDB server")
         root_dir = Path(os.environ["BLUEPEPPER_ROOT"])
         mongod_path = root_dir / "bin/mongodb/mongod.exe"
-        db_path = root_dir.parent / ".bluepepper_database"
-        print("AAAA")
-        print(os.environ["BLUEPEPPER_ROOT"])
-        print(root_dir)
-        print(db_path)
+        db_path = root_dir.parent / f"{root_dir.name}_database"
         db_path.mkdir(parents=True, exist_ok=True)
 
         command = [str(mongod_path), "--dbpath", str(db_path), "--port", "27017"]
