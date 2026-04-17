@@ -3,10 +3,12 @@ from pathlib import Path
 
 from lucent import Codex, Convention, Conventions, Rule, Rules
 
-PROJECT_ROOT = os.environ.get("BLUEPEPPER_PROJECT_ROOT")
-if not PROJECT_ROOT:
-    root_dir = os.environ["BLUEPEPPER_ROOT"]
-    PROJECT_ROOT = Path(root_dir).parent.joinpath(".project_root").as_posix()
+_project_root = os.environ.get("BLUEPEPPER_PROJECT_ROOT")
+if _project_root:
+    PROJECT_ROOT = Path(_project_root)
+else:
+    root_dir = Path(os.environ["BLUEPEPPER_ROOT"])
+    PROJECT_ROOT = root_dir.parent.joinpath(f"{root_dir.name}_project")
 
 
 class MyRules(Rules):
@@ -28,7 +30,7 @@ class MyRules(Rules):
 
 class MyConventions(Conventions):
     # Project
-    project_root = Convention(PROJECT_ROOT)
+    project_root = Convention(PROJECT_ROOT.as_posix())
 
     # Configuration for entity creation
     asset_identifier = Convention("{asset}")
