@@ -76,7 +76,7 @@ class TableTasks(QTableWidget):
             if not task.doc_filter or not documents:
                 filtered_tasks.append(task)
                 continue
-            filtered_documents = list(filter(task.filter, documents))
+            filtered_documents = list(filter(task.doc_filter, documents))
             if filtered_documents:
                 filtered_tasks.append(task)
 
