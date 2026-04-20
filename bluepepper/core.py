@@ -1,13 +1,12 @@
 import os
 from pathlib import Path
 
-from conf.lucent_config import codex
-
 from bluepepper.__version__ import __version__ as version
 from bluepepper.database import database
 from bluepepper.logger import init_logging
 from bluepepper.reload import reload_bluepepper_modules
 from bluepepper.temp import get_temp_path
+from conf.lucent import codex
 
 if not os.environ.get("BLUEPEPPER_ROOT"):
     raise RuntimeError(
