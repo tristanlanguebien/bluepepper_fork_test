@@ -13,7 +13,7 @@ from pymongo.synchronous.collection import Collection
 from pymongo.synchronous.database import Database
 
 from conf.database import DatabaseSettings
-from conf.lucent import codex
+from conf.naming_conventions import codex
 
 # TODO : add retries mechanisms with the tenacity package
 

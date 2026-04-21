@@ -6,7 +6,7 @@ from bluepepper.database import database
 from bluepepper.logger import init_logging
 from bluepepper.reload import reload_bluepepper_modules
 from bluepepper.temp import get_temp_path
-from conf.lucent import codex
+from conf.naming_conventions import codex
 
 if not os.environ.get("BLUEPEPPER_ROOT"):
     raise RuntimeError(
