@@ -4,7 +4,7 @@ from bluepepper.core import codex
 from bluepepper.tools.browser.browser_config import (
     AppConfig,
     Entity,
-    Kind,
+    FileKind,
     MenuAction,
     Task,
 )
@@ -56,7 +56,7 @@ def get_tool_config() -> AppConfig:
     # Modeling
     asset_modeling_task = Task("modeling")
     asset_entity.add_task(asset_modeling_task)
-    kind = Kind(
+    kind = FileKind(
         name="asset_modeling_workfile_blender",
         label="Workfile (blender)",
         convention=codex.convs.asset_modeling_workfile_blender,
@@ -66,7 +66,7 @@ def get_tool_config() -> AppConfig:
     # Surfacing
     asset_surfacing_task = Task("surfacing")
     asset_entity.add_task(asset_surfacing_task)
-    kind = Kind(
+    kind = FileKind(
         name="asset_surfacing_workfile_blender",
         label="Workfile (blender)",
         convention=codex.convs.asset_surfacing_workfile_blender,
@@ -76,7 +76,7 @@ def get_tool_config() -> AppConfig:
     # texturing
     asset_texturing_task = Task("texturing")
     asset_entity.add_task(asset_texturing_task)
-    kind = Kind(
+    kind = FileKind(
         name="asset_texturing_workfile_blender",
         label="Workfile (blender)",
         convention=codex.convs.asset_texturing_workfile_blender,
@@ -86,7 +86,7 @@ def get_tool_config() -> AppConfig:
     # rigging
     asset_rigging_task = Task("rigging")
     asset_entity.add_task(asset_rigging_task)
-    kind = Kind(
+    kind = FileKind(
         name="asset_rigging_workfile_blender",
         label="Workfile (blender)",
         convention=codex.convs.asset_rigging_workfile_blender,
@@ -96,7 +96,7 @@ def get_tool_config() -> AppConfig:
     # grooming
     asset_grooming_task = Task("grooming")
     asset_entity.add_task(asset_grooming_task)
-    kind = Kind(
+    kind = FileKind(
         name="asset_grooming_workfile_blender",
         label="Workfile (blender)",
         convention=codex.convs.asset_grooming_workfile_blender,
@@ -106,7 +106,7 @@ def get_tool_config() -> AppConfig:
     # fx
     asset_fx_task = Task("fx")
     asset_entity.add_task(asset_fx_task)
-    kind = Kind(
+    kind = FileKind(
         name="asset_fx_workfile_blender",
         label="Workfile (blender)",
         convention=codex.convs.asset_fx_workfile_blender,
@@ -116,7 +116,7 @@ def get_tool_config() -> AppConfig:
     # assembly
     asset_assembly_task = Task("assembly")
     asset_entity.add_task(asset_assembly_task)
-    kind = Kind(
+    kind = FileKind(
         name="asset_assembly_workfile_blender",
         label="Workfile (blender)",
         convention=codex.convs.asset_assembly_workfile_blender,
@@ -128,7 +128,7 @@ def get_tool_config() -> AppConfig:
     config.add_entity(shot_entity)
     shot_layout_task = Task("layout")
     shot_entity.add_task(shot_layout_task)
-    kind = Kind(
+    kind = FileKind(
         name="shot_layout_workfile",
         label="Workfile",
         convention=codex.convs.shot_layout_workfile,
