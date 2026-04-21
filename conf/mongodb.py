@@ -18,7 +18,7 @@ class DatabaseSettings:
     password: str | None = None
 
     # Method 2 : URI
-    uri: str | None = "mongodb+srv://user:password@my.server.mongodb.net"
+    uri: str | None = "mongodb://<db_username>:<db_password>@..."
 
     # Method 3 : Local
     # Does not need any configuration

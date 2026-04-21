@@ -78,7 +78,7 @@ class ProjectSettings:
 ```
 
 ## Configuring the Database
-In the `conf/database.py` file, several connection modes to a MongoDB database are available:
+In the `conf/mongodb.py` file, several connection modes to a MongoDB database are available:
 
 - **local**: Probably the best option if you just want to test BigPipe or if you only plan to use it on a personal project, but keep in mind that the server runs locally and only when the application is open (so this option is not suitable for collaborative work).
 
@@ -106,8 +106,8 @@ MongoDB Atlas allows you to host one database for free per account. Fortunately,
   (go to **Clusters → Database & Network Access**. From there, you can set the user privileges to **"Read and write any database"** instead of **"Admin"**).
 - Add the IP address `0.0.0.0/0` so the database can be accessed from anywhere on the internet.
 - Your database is now up and running.
-- Go to **Connect → Drivers → Python**, then copy the **SRV connection string**.
-- Open `conf/database.py`.
+- Go to **Connect → Drivers → Python**, uncheck "SRV Connection String", then copy the **Connection String** (Notes : the srv connection string uses a DNS server, which will fail on VPN networks).
+- Open `conf/mongodb.py`.
 - Set the mode to `"uri"`.
 - Paste the connection string as the value for `"uri"`.
 - Save the file.
@@ -121,7 +121,7 @@ class DatabaseSettings:
     port: int = 27017  # Won't be used
     user: str | None = None  # Won't be used
     password: str | None = None  # Won't be used
-    uri: str | None = "mongodb+srv://user:password@my.server.mongodb.net"
+    uri: str | None = "mongodb://<db_username>:<db_password>@..."
 ```
 
 BluePepper should now be able to connect to the MongoDB Atlas database.
