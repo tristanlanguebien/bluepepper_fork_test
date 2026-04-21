@@ -20,7 +20,7 @@ from bluepepper.core import database
 from bluepepper.tools.browser.browser_config import Entity
 from bluepepper.tools.browser.table_documents import TableDocuments
 from bluepepper.tools.browser.table_files import TableFiles
-from bluepepper.tools.browser.table_kinds import TableKinds
+from bluepepper.tools.browser.table_kinds import TableFileKinds
 from bluepepper.tools.browser.table_tasks import TableTasks
 
 # Imports used only for type checking : these will not be imported at runtime
@@ -45,7 +45,7 @@ class EntityTab(QWidget):
         self.entity = entity
         self.document_table: TableDocuments = None
         self.task_table: TableTasks = None
-        self.kind_table: TableKinds = None
+        self.kind_table: TableFileKinds = None
         self.file_table: TableFiles = None
         self.search_bar: SearchBar = None
         self.filter_comboboxes: list[FilterComboBox] = []
@@ -146,7 +146,7 @@ class EntityTab(QWidget):
         self.layout_results.addWidget(self.task_table)
 
     def add_kind_table(self):
-        self.kind_table = TableKinds(self)
+        self.kind_table = TableFileKinds(self)
         self.layout_results.addWidget(self.kind_table)
 
     def add_file_table(self):

@@ -37,7 +37,7 @@ class MenuAction:
 
 
 @dataclass
-class Kind:
+class FileKind:
     """
     Represents an kind within a workflow task (e.g., asset directory, file).
 
@@ -78,14 +78,14 @@ class Task:
     name: str
     task_field: str = field(default="")
     label: str = field(default="")
-    kinds: dict[str, Kind] = field(default_factory=dict[str, Kind])
+    kinds: dict[str, FileKind] = field(default_factory=dict[str, FileKind])
     doc_filter: Callable = None
 
     def __post_init__(self):
         if not self.label:
             self.label = self.name.capitalize()
 
-    def add_kind(self, kind: Kind):
+    def add_kind(self, kind: FileKind):
         if kind.name in self.kinds:
             raise RuntimeError(
                 f'Cannot add kind with name "{kind.name}". Name is already used'
@@ -156,13 +156,13 @@ class AppConfig:
             for _, task in entity.tasks.items():
                 lines.append("    [Task] " + task.label)
                 for _, kind in task.kinds.items():
-                    lines.append("      [Kind] " + kind.label)
+                    lines.append("      [FileKind] " + kind.label)
                     for action in kind.kind_actions:
                         kwargs = ", ".join(
                             f"{k}={v}" for k, v in action.kwargs.values()
                         )
                         lines.append(
-                            f"        [Kind Action] {action.label} -> {action.module}.{action.callable}({kwargs})"
+                            f"        [FileKind Action] {action.label} -> {action.module}.{action.callable}({kwargs})"
                         )
                     for action in kind.file_actions:
                         kwargs = ", ".join(

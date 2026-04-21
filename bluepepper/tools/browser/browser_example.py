@@ -9,7 +9,7 @@ from bluepepper.core import codex
 from bluepepper.tools.browser.browser_config import (
     AppConfig,
     Entity,
-    Kind,
+    FileKind,
     MenuAction,
     Task,
 )
@@ -60,17 +60,17 @@ asset_entity.add_document_action(show_in_aquarium_action)
 asset_modeling_task = Task("modeling", task_field="mdl")
 asset_entity.add_task(asset_modeling_task)
 
-asset_workfile_kind = Kind(name="workfile", convention=codex.convs.asset_maya_file)
+asset_workfile_kind = FileKind(name="workfile", convention=codex.convs.asset_maya_file)
 asset_workfile_kind.add_file_action(
     MenuAction("Reveal in explorer", module="bluepepper.do_stuff", callable="do_stuff")
 )
 asset_workfile_kind.add_kind_action(
     MenuAction("Reveal in explorer", module="bluepepper.do_stuff", callable="do_stuff")
 )
-asset_dir_kind = Kind(
+asset_dir_kind = FileKind(
     name="asset_dir", label="Folder", convention=codex.convs.asset_dir
 )
-asset_publish_kind = Kind(
+asset_publish_kind = FileKind(
     name="asset_publish_file",
     label="Publish",
     convention=codex.convs.asset_publish_file,
@@ -92,7 +92,7 @@ config.add_entity(shot_entity)
 shot_layout_task = Task("layout", task_field="lay")
 shot_entity.add_task(shot_layout_task)
 
-kind = Kind(name="workfile", convention=codex.convs.asset_maya_file)
+kind = FileKind(name="workfile", convention=codex.convs.asset_maya_file)
 kind.add_file_action(
     MenuAction("Reveal in explorer", module="bluepepper.do_stuff", callable="do_stuff")
 )

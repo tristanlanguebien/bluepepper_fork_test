@@ -27,7 +27,7 @@ from watchdog.observers import Observer
 
 from bluepepper.core import database
 from bluepepper.gui.utils import get_icon
-from bluepepper.tools.browser.browser_config import Kind
+from bluepepper.tools.browser.browser_config import FileKind
 
 # Imports used only for type checking : these will not be imported at runtime
 if TYPE_CHECKING:
@@ -363,7 +363,7 @@ class TableFiles(QTableWidget):
             self.setItem(0, 0, no_file_item)
 
     @property
-    def selected_kind(self) -> Kind:
+    def selected_kind(self) -> FileKind:
         return self.kind_table.selected_kind
 
     def contextMenuEvent(self, event: QEvent):
@@ -406,7 +406,7 @@ class TableFilesMenu(QMenu):
     def __init__(
         self,
         tab: EntityTab,
-        kind: Kind,
+        kind: FileKind,
         event: QEvent,
     ):
         super().__init__(tab)

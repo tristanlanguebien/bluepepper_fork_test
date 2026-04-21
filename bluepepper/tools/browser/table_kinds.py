@@ -18,7 +18,7 @@ from qtpy.QtWidgets import (
 
 from bluepepper.core import database
 from bluepepper.gui.utils import get_icon
-from bluepepper.tools.browser.browser_config import Kind
+from bluepepper.tools.browser.browser_config import FileKind
 
 # Imports used only for type checking : these will not be imported at runtime
 if TYPE_CHECKING:
@@ -27,7 +27,7 @@ if TYPE_CHECKING:
     from bluepepper.tools.browser.browser_widget import BrowserWidget
 
 
-class TableKinds(QTableWidget):
+class TableFileKinds(QTableWidget):
     """
     This class adds signals to the provided table widget
     This method was chosen over inheriting from QTableWidget and initializing a
@@ -51,7 +51,7 @@ class TableKinds(QTableWidget):
         self.setSizePolicy(size_policy)
         item = QTableWidgetItem()
         self.setHorizontalHeaderItem(0, item)
-        self.setHorizontalHeaderLabels(["Kinds"])
+        self.setHorizontalHeaderLabels(["FileKinds"])
         self.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.horizontalHeader().setVisible(True)
@@ -68,18 +68,18 @@ class TableKinds(QTableWidget):
     def kind_changed(self):
         """This method is triggered when the kind's selection has changed"""
         kind_names = [item.kind.name for item in self.get_selected_items()]
-        logging.info(f"Kind selection changed to {kind_names}")
+        logging.info(f"FileKind selection changed to {kind_names}")
         self.tab.file_table.update_items()
 
-    def get_selected_items(self) -> list[KindItem]:
+    def get_selected_items(self) -> list[FileKindItem]:
         return self.selectedItems()
 
-    def get_selected_kind(self) -> Kind | None:
+    def get_selected_kind(self) -> FileKind | None:
         selected = self.get_selected_items()
         if selected:
             return selected[0].kind
 
-    def get_kinds(self) -> list[Kind]:
+    def get_kinds(self) -> list[FileKind]:
         task = self.tab.task_table.get_selected_task()
         if not task:
             return []
@@ -88,9 +88,9 @@ class TableKinds(QTableWidget):
     def update_items(self):
         self.clear_items()
         kinds = self.get_kinds()
-        self.kind_items = [KindItem(kind) for kind in kinds]
+        self.kind_items = [FileKindItem(kind) for kind in kinds]
         if not self.kind_items:
-            self.kind_items = [KindItem(None)]
+            self.kind_items = [FileKindItem(None)]
 
         # Add items to the table
         for item in self.kind_items:
@@ -103,9 +103,9 @@ class TableKinds(QTableWidget):
         self.setRowCount(0)
 
     @property
-    def selected_kind(self) -> Kind | None:
+    def selected_kind(self) -> FileKind | None:
         items = self.selectedItems() or []
-        items = [item for item in items if isinstance(item, KindItem)]
+        items = [item for item in items if isinstance(item, FileKindItem)]
         kinds = [item.kind for item in items]
         if kinds:
             return kinds[0]
@@ -116,14 +116,14 @@ class TableKinds(QTableWidget):
         """
         if not self.entity.document_actions:
             return
-        menu = TableKindsMenu(tab=self.tab, kind=self.selected_kind, event=event)
+        menu = TableFileKindsMenu(tab=self.tab, kind=self.selected_kind, event=event)
         menu.exec_(event.globalPos())
 
 
-class KindItem(QTableWidgetItem):
-    """This class represents a kind item within the TableKinds widget"""
+class FileKindItem(QTableWidgetItem):
+    """This class represents a kind item within the TableFileKinds widget"""
 
-    def __init__(self, kind: Kind = None):
+    def __init__(self, kind: FileKind = None):
         self.kind = kind
         super().__init__("")
         self.set_label()
@@ -137,8 +137,8 @@ class KindItem(QTableWidgetItem):
             self.setFlags(self.flags() ^ Qt.ItemFlag.ItemIsEnabled)
 
 
-class TableKindsMenu(QMenu):
-    def __init__(self, tab: EntityTab, kind: Kind, event: QEvent):
+class TableFileKindsMenu(QMenu):
+    def __init__(self, tab: EntityTab, kind: FileKind, event: QEvent):
         super().__init__(tab)
         self.tab = tab
         self.kind = kind
