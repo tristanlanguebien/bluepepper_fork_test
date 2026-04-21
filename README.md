@@ -1,25 +1,30 @@
-
 # Table of Contents
 
 - [What is BluePepper?](#what-is-bluepepper)
-- [Video Tutorial](#video-tutorial)
+- [Video Tutorials](#video-tutorials)
 - [Very Quick Start](#very-quick-start)
 - [In-Depth Quick Start](#in-depth-quick-start)
 - [Core Concepts](#core-concepts)
 - [Configuration](#configuration)
-  - [Project Settings](#project-settings)
-  - [Database Configuration](#database-configuration)
-    - [MongoDB Atlas Setup](#mongodb-atlas-setup)
-  - [Lucent Configuration](#lucent-configuration)
-  - [Browser Configuration](#browser-configuration)
-    - [Browser Application Configuration](#browser-application-configuration)
-      - [Entities](#entities)
-      - [Tasks](#tasks)
-      - [FileKinds](#kinds)
-      - [Actions](#actions)
-      - [Passing Arguments to Actions](#passing-arguments-to-actions)
-      - [Filtering Tasks and Actions](#filtering-tasks-and-actions)
+  - [Project Settings](#configuring-the-project)
+  - [Database Configuration](#configuring-the-database)
+    - [MongoDB Atlas Setup](#mongodb-atlas-setup-optional)
+  - [Naming Conventions](#configuring-the-naming-conventions)
+  - [Browser Configuration](#configuring-the-browser)
+    - [Entities](#entities)
+    - [Tasks](#tasks)
+    - [FileKinds](#filekinds)
+    - [Actions](#actions)
+    - [Passing Arguments to Actions](#passing-arguments-to-actions)
+    - [Filtering Tasks and Actions](#filtering-tasks-and-actions)
+    - [Adding Icons to Menu Actions](#adding-icons-to-menu-actions)
+    - [Creating a Batcher Job through a MenuAction](#creating-a-batcher-job-through-a-menuaction)
+  - [Launcher Configuration](#launcher-configuration)
+    - [About Qt Dialogs](#about-qt-dialogs)
+    - [About Beautiful Qt Dialogs](#about-beautiful-qt-dialogs)
 - [Design Philosophy](#design-philosophy)
+
+---
 
 # What is BluePepper?
 
@@ -28,43 +33,45 @@ BluePepper is a pipeline application designed for 2D/3D animation studios. The p
 - Provide a straightforward and lean pipeline application that is easy to configure and use
 - Operate independently from production trackers or elaborate online services
 - Make navigation and automation efficient and simple to set up
-- Strike the best balance between ease of setup and automation capabilities : you'll need basic development skills, but adding new features should be reasonably straightforward
+- Strike the best balance between ease of setup and automation capabilities. You will need basic development skills, but adding new features should be reasonably straightforward
 
 # Video Tutorials
-Coming soon (hopefully)
+
+Coming soon (hopefully).
 
 # Very Quick Start
+
 - Download the source code.
 - Unzip it into a new folder, for example `myProject`.
-- Run install_dev.bat.
+- Run `install_dev.bat`.
 - Double-click the newly created BluePepper shortcut.
-- Feel free to fiddle with the files in the `conf` folder.
+- Feel free to explore the files in the `conf` folder.
 
-# In Depth Quick Start
+# In-Depth Quick Start
 
-Now that you've had a chance to test BluePepper quickly, let's dive into the details.
+Now that you have had a chance to test BluePepper, let's dive into the details.
 
 ## Core Concepts
 
-BluePepper relies on a few key features:
+BluePepper relies on a few key components:
 
-- **MongoDB Server**: Contains all the `Documents` for your project (primarily assets and shots). A `Document` is essentially the identity card of your assets and shots. Think of it as metadata that BluePepper uses for many of its features
-- **Codex**: Allows you to declare all the naming conventions for your project (i.e., how files should be named, where they should be stored, which characters are allowed/forbidden). The codex uses the Python package [Lucent](https://pypi.org/project/lucent-codex/). For more information, see the [Lucent documentation](https://github.com/tristanlanguebien/lucent)
-- **Browser**: Allows you to search for files using the `Database` and the `Codex` together. When you select a `Document` and a file type, you are effectively creating a file search that resolves the naming convention using the asset/shot document.
-- **Batcher**: The task manager that executes in the background the actions you launch from the Browser. Although it's somewhat advanced to use, it's a powerful tool for running an action on hundreds of shots in a single click
+- **MongoDB Server**: Contains all the `Documents` for your project (primarily assets and shots). A `Document` is essentially the identity card of an asset or shot, think of it as metadata that BluePepper uses across many of its features.
+- **Codex**: Allows you to declare all the naming conventions for your project (i.e., how files should be named, where they should be stored, and which characters are allowed or forbidden). The Codex uses the Python package [Lucent](https://pypi.org/project/lucent-codex/). For more information, refer to the [Lucent documentation](https://github.com/tristanlanguebien/lucent).
+- **Browser**: Allows you to search for files by combining the `Database` and the `Codex`. When you select a `Document` and a file type, you are effectively creating a file search that resolves the naming convention using the asset or shot document.
+- **Batcher**: The task manager that executes in the background the actions you launch from the Browser. While it is somewhat advanced, it is a powerful tool for running an action across hundreds of shots in a single click.
 
-Once you become familiar with these four components, a world of possibilities opens up to you!
+Once you are familiar with these four components, a world of possibilities opens up!
 
-## Setting up a development environment
+## Setting Up a Development Environment
 
-- Fork the repository to your personal GitHub page (for example, `bluepepper_myProject`). This will make it easier to edit the configuration and deploy it to your team later
-- Clone the repository
-- Run `install_dev.bat`
-- You can now open the app using the newly created BluePepper shortcut, but let's do some configuration first
+- Fork the repository to your personal GitHub page (for example, `bluepepper_myProject`). This will make it easier to edit the configuration and deploy it to your team later.
+- Clone the repository.
+- Run `install_dev.bat`.
+- You can now open the app using the newly created BluePepper shortcut, but let's do some configuration first.
 
 ## Configuring the Project
 
-Edit the file `conf/project.py` so it matches you project's needs
+Edit the file `conf/project.py` to match your project's needs:
 
 ```python
 class ProjectSettings:
@@ -78,35 +85,34 @@ class ProjectSettings:
 ```
 
 ## Configuring the Database
+
 In the `conf/mongodb.py` file, several connection modes to a MongoDB database are available:
 
-- **local**: Probably the best option if you just want to test BigPipe or if you only plan to use it on a personal project, but keep in mind that the server runs locally and only when the application is open (so this option is not suitable for collaborative work).
-
-- **host-port**: If you or your IT department can set up a MongoDB server, this option will likely suit your needs.
-
-- **uri**: If you do not know how to set up a MongoDB server yourself, the easiest solution is to use an online service that hosts it for you, and connect using the URI provided by that service.
+- **local**: Probably the best option if you just want to test BluePepper or use it on a personal project. Keep in mind, however, that the server runs locally and only while the application is open. This option is not suitable for collaborative work.
+- **host-port**: If you or your IT department can set up a dedicated MongoDB server, this option will likely suit your needs.
+- **uri**: If setting up a MongoDB server yourself is not an option, the easiest solution is to use an online hosting service and connect using the URI it provides.
 
 ## MongoDB Atlas Setup (Optional)
 
-This section is intended for users who need help setting up a MongoDB server. If you do not need this, simply skip to the next section.
+This section is intended for users who need help setting up a MongoDB server. If this does not apply to you, feel free to skip to the next section.
 
-MongoDB Atlas allows you to host one database for free per account. Fortunately, we do not need a large database, so the free tier works perfectly well.
+MongoDB Atlas allows you to host one database for free per account. Since BluePepper does not require a large database, the free tier works perfectly well.
 
 **Warning:** Keep in mind that the free tier does not include backups.
 
 - Create an account at https://www.mongodb.com/products/platform/atlas-database
-- Follow the welcome instructions, or go to  
+- Follow the welcome instructions, or navigate to  
   **Account → Organizations → {your organization} → All Projects → {your project} → Clusters → Build a Cluster**
 - Choose the **Free** tier.
 - Give your cluster a name (for example, `bluepepperDB`).
 - Uncheck **"Preload sample dataset"**.
 - Click **"Create Deployment"**.
 - Set the admin password and store it somewhere safe.
-- You may create an additional user if you want to fine-tune permissions  
-  (go to **Clusters → Database & Network Access**. From there, you can set the user privileges to **"Read and write any database"** instead of **"Admin"**).
-- Add the IP address `0.0.0.0/0` so the database can be accessed from anywhere on the internet.
+- You may create an additional user if you wish to fine-tune permissions  
+  (go to **Clusters → Database & Network Access**, where you can set user privileges to **"Read and write any database"** instead of **"Admin"**).
+- Add the IP address `0.0.0.0/0` to allow the database to be accessed from anywhere on the internet.
 - Your database is now up and running.
-- Go to **Connect → Drivers → Python**, uncheck "SRV Connection String", then copy the **Connection String** (Notes : the srv connection string uses a DNS server, which will fail on VPN networks).
+- Go to **Connect → Drivers → Python**, uncheck **"SRV Connection String"**, then copy the **Connection String**. (Note: the SRV connection string relies on a DNS server, which may fail on VPN networks.)
 - Open `conf/mongodb.py`.
 - Set the mode to `"uri"`.
 - Paste the connection string as the value for `"uri"`.
@@ -124,20 +130,17 @@ class DatabaseSettings:
     uri: str | None = "mongodb://<db_username>:<db_password>@..."
 ```
 
-BluePepper should now be able to connect to the MongoDB Atlas database.
+BluePepper should now be able to connect to your MongoDB Atlas database.
 
-Feel free to create an asset and a shot in BluePepper to see how the database is structured.
-You can browse your database in **MongoDB Atlas → Clusters → Browse Collections.**
+Feel free to create an asset and a shot in BluePepper to see how the database is structured. You can browse your database via **MongoDB Atlas → Clusters → Browse Collections**, or use a dedicated application such as [MongoDB Compass](https://www.mongodb.com/products/tools/compass).
 
-Alternatively, you can use a dedicated app, such as [MongoDB Compass](https://www.mongodb.com/products/tools/compass).
-
-## Configuring the naming conventions
+## Configuring the Naming Conventions
 
 In the file `conf/naming_conventions.py`, you can configure all the naming conventions for your project.
 
-To keep things short, you just have to know that Lucent holds everything together within a Codex, which contains Conventions (string templates made up of fields) and Rules (that define how fields should behave). For more information, consult the official documentation: [Lucent Documentation](https://github.com/tristanlanguebien/lucent).
+In brief: Lucent organises everything within a `Codex`, which contains `Conventions` (string templates made up of fields) and `Rules` (which define how fields should behave). For more information, consult the [Lucent documentation](https://github.com/tristanlanguebien/lucent).
 
-`naming_conventions.py` comes with a few boilerplate examples that show the various features of Lucent, but you can go for something simpler. Here is a minimal version of the Codex:
+`naming_conventions.py` comes with a few boilerplate examples demonstrating the various features of Lucent, but you can keep things simple. Here is a minimal version of the Codex:
 
 ```python
 from lucent import Codex, Convention, Conventions, Rule, Rules
@@ -179,57 +182,57 @@ class BluePepperCodex(Codex):
 codex = BluePepperCodex()
 ```
 
-Be careful though: the Browser's configuration relies on Conventions as well. If you remove a Convention that is used by the Browser, BluePepper won't be able to boot anymore. Worry not, we will cover all of that in the next section.
+One important note: the Browser's configuration also relies on Conventions. If you remove a Convention that is used by the Browser, BluePepper will not be able to start. Don't worry, this is covered in the next section.
 
 ## Configuring the Browser
 
-Here is how the Browser is structured:
+The Browser is structured as follows:
 
-BrowserConfig -> Entities -> Tasks -> FileFileKinds -> Files.
+`BrowserConfig` → `Entities` → `Tasks` → `FileKinds` → `Files`
 
-First, `Entities` define which database collections that the user should be able to browse. The obvious ones are assets and shots, but you may want to create other entities (episodes, levels...)
+**Entities** define which database collections the user can browse. The obvious ones are assets and shots, but you may want to create additional entities (episodes, levels, etc.).
 
-`Entities` can now be filled with `Tasks`. In the context of the browser, you can think of `Tasks` as a convinient way to regroup files kinds together.
+**Tasks** group file kinds together within an entity, think of them as a convenient way to organise files by department.
 
-`Tasks` are then filled with `FileFileKinds`, which is basically a Lucent `Convention`.
+**FileKinds** are essentially a Lucent `Convention`, they define which specific files should be surfaced in the Browser.
 
-`Files` are the result of a file discovery that matches the selected `Documents` and the selected `FileFileKind`
+**Files** are the result of a file discovery that matches the selected `Documents` against the selected `FileKind`.
 
 ### Entities
 
-The base point here is to create a new config object, and fill it.
+Start by creating a new config object and populating it:
 
 ```python
 config = AppConfig("bigBrowserMainApp")
 ```
 
-First, you need to declare the entities you want to access (typically, assets and shots). Adding an entity automatically adds a tab to the interface:
+Declare the entities you want to access (typically assets and shots). Adding an entity automatically adds a tab to the interface:
 
 ```python
 asset_entity = Entity(name="asset", collection="assets", filters=["type"])
 config.add_entity(asset_entity)
 ```
 
-The `collection` parameter indicates which collection in your database the Browser will query for documents. By default, BluePepper uses only the `assets` and `shots` collections, but depending on your needs, you might want to create additional entities and corresponding collections in MongoDB.
+The `collection` parameter indicates which MongoDB collection the Browser will query for documents. By default, BluePepper uses the `assets` and `shots` collections, but you can create additional entities and corresponding collections as needed.
 
-Keep in mind that the filters must be coherent with what you have defined into `naming_conventions.py` : for instance, the Browser will not be able to create an "episode" filter if you got rid of the "episode" field in your Codex.
+Note that filters must be consistent with what you have defined in `naming_conventions.py`. For instance, the Browser will not be able to create an "episode" filter if the "episode" field does not exist in your Codex.
 
-The documents in the database under the provided collection will now appear in the first column of the interface, and the filtering options will be available at the top.
+Documents from the specified collection will appear in the first column of the interface, with filtering options available at the top.
 
 ### Tasks
 
-Next, you can create tasks within your entity. Tasks are simply a way to group your file kinds to match your departments' needs:
+You can now create tasks within your entity. Tasks are a way to group file kinds according to your departments' needs:
 
 ```python
 asset_modeling_task = Task("modeling")
 asset_entity.add_task(asset_modeling_task)
 ```
 
-The created tasks will appear in the second column of the interface.
+Tasks appear in the second column of the interface.
 
 ### FileKinds
 
-You can now populate your tasks with kinds. FileKinds are essentially a way to access files that match a specific convention from your project's codex:
+Populate your tasks with file kinds. A `FileKind` provides access to files matching a specific convention from your project's Codex:
 
 ```python
 kind = FileKind(
@@ -240,23 +243,23 @@ kind = FileKind(
 asset_modeling_task.add_kind(kind)
 ```
 
-FileKinds will appear in the third column of the interface.
+FileKinds appear in the third column of the interface.
 
 #### Actions
 
-Contextual menu actions can be added to documents, kinds, and files, allowing you to define which specific actions can be run when you right-click on various elements of the interface.
+Contextual menu actions can be added to documents, kinds, and files, allowing you to define which actions are available when right-clicking on various elements of the interface.
 
 For example:
 
 - Create a new file in `conf/scripts` (for example, `print_stuff.py`)
-- Create a new function in this file:
+- Define a function in that file:
 
 ```python
 def say_hello() -> None:
     print("Hello World")
 ```
 
-- Add an action that runs this function using this code:
+- Add an action that calls this function:
 
 ```python
 action = MenuAction(
@@ -267,45 +270,45 @@ action = MenuAction(
 asset_entity.add_document_action(action)
 ```
 
-When you right-click on an asset document, the "say hello" action should appear, and "Hello World" should be printed to the console when you click on it.
+When you right-click on an asset document, the "say hello" action should appear, and "Hello World" will be printed to the console when you click it.
 
 #### Passing Arguments to Actions
 
-Printing "Hello World" is nice, but what if you need to pass the selected documents or files as arguments?
+Printing "Hello World" is a fine start, but what if you need to pass the selected documents or files as arguments?
 
-You can use the `kwargs` attribute with these specific keywords, which will be replaced when passed to your functions:
+You can use the `kwargs` attribute with the following special keywords, which are automatically substituted when passed to your functions:
 
 - `<document>`: Each of the selected documents (triggers the function once per document)
 - `<documents>`: List of all selected documents (triggers the function once)
 - `<document_name>`: Each of the selected documents' names (triggers the function once per document)
-- `<document_names>`: List of all documents' names (triggers the function once)
+- `<document_names>`: List of all selected documents' names (triggers the function once)
 - `<document_id>`: Each of the selected documents' MongoDB IDs (triggers the function once per document)
-- `<document_ids>`: List of all documents' MongoDB IDs (triggers the function once)
+- `<document_ids>`: List of all selected documents' MongoDB IDs (triggers the function once)
 - `<convention>`: The selected convention object
 - `<path>`: Each selected path (triggers the function once per path)
 - `<paths>`: List of all selected paths (triggers the function once)
 - `<browser>`: The BrowserWidget object
 
-You may wonder why there are so many similar keywords like `document` and `documents`. There's actually an important difference. Let's say you have 10 selected documents:
+You may wonder why there are both singular and plural variants like `<document>` and `<documents>`. The distinction is significant. With 10 selected documents:
 
-- Using `<document>` triggers the function 10 times, once for each document
-- Using `<documents>` triggers the function only once, with the list of documents passed as an argument (assuming your function contains a loop)
+- `<document>` triggers the function 10 times, once per document
+- `<documents>` triggers the function once, passing the entire list as an argument (assuming your function contains a loop)
 
 The same logic applies to `<document_name(s)>`, `<document_id(s)>`, and `<path(s)>`.
 
 #### Filtering Tasks and Actions
 
-What if the rigging task should only appear on character assets? What if an action should only work on MP4 files? Filters have you covered.
+What if the rigging task should only appear for character assets? What if an action should only work on MP4 files? Filters have you covered.
 
 There are two types of filters:
 
 - `doc_filter`: Depends on the document
 - `path_filter`: Depends on the path
 
-Create a function that returns `True` if your condition is met, `False` otherwise. Here are some examples: 
+Create a function that returns `True` if your condition is met, `False` otherwise. Here are some examples:
 
 ```python
-# Task "Rigging" will only appear if a character is selected
+# Task "Rigging" will only appear if a character asset is selected
 def is_chr(doc: dict) -> bool:
     if not is_asset(doc):
         return False
@@ -330,39 +333,38 @@ action = MenuAction(
 )
 ```
 
-What if you have both a character and a prop selected? The Browser handles this intelligently—the menu action will show, but it will only execute on documents that match your filter.
+What if you have both a character and a prop selected? The Browser handles this gracefully. The menu action will appear, but it will only execute on documents that match your filter.
 
-#### Adding icons to menu actions
+#### Adding Icons to Menu Actions
 
-BluePepper uses QTAwesome for its menu icons, which comes with a handy browser
-to open it, go to your terminal : 
+BluePepper uses QtAwesome for its menu icons. To browse available icons, open your terminal and run:
 
 ```powershell
 python main.py --shell
 qta-browser
 ```
 
-from there, you'll be able to copy the icon code, that you can use when declaring you MenuAction. You can also set a color if you wish.
+From there, you can copy the icon code and use it when declaring your `MenuAction`. You can also set a custom colour if you wish:
 
-```
+```python
 action = MenuAction(
     label="say hello",
     module="conf.scripts.print_stuff",
     callable="say_hello",
-    qta_icon="mdi6.hand-wave"
-    qta_icon_color="#FF000"
+    qta_icon="mdi6.hand-wave",
+    qta_icon_color="#FF0000"
 )
 ```
 
 #### Creating a Batcher Job through a MenuAction
 
-(Coming soon) the Batcher feature is not released yet
+*(Coming soon. the Batcher feature has not been released yet.)*
 
 ## Launcher Configuration
 
-Let's add a simple icon that opens VLC into the Launcher.
+Let's add a simple icon to the Launcher that opens VLC.
 
-First, you can create a file, wherever you see fit, for instance `conf.scripts.vlc.py`
+First, create a file, for instance, `conf/scripts/vlc.py`:
 
 ```python
 import os
@@ -371,7 +373,7 @@ def open_vlc():
     os.startfile("C:/Program Files/VideoLAN/VLC/vlc.exe")
 ```
 
-Go to the file `conf/app_launcher.py` and append an item to the `apps` : 
+Then open `conf/app_launcher.py` and append an item to the `apps` list:
 
 ```python
 class DefaultLauncherConfig(LauncherConfig):
@@ -386,13 +388,13 @@ class DefaultLauncherConfig(LauncherConfig):
     ]
 ```
 
-Congratulations, a new app icon will be added to the Apps layout, and VLC will open when you double click on it. Note that there is no technical difference between apps and tools, it is just a convenient way to organise your icons : if we wanted VLC icon to appear on the bottom of the launcher, just add the LauncherItem to the tools instead of adding it to the apps.
+A new app icon will appear in the Apps section of the Launcher, and VLC will open when you double-click it. Note that there is no technical difference between apps and tools, it is simply a convenient way to organise your icons. If you wanted the VLC icon to appear at the bottom of the Launcher, you would add the `LauncherItem` to `tools` instead of `apps`.
 
-Please note that this way of using custom functions to open applications gives you a lot of freedom, so you can make very simple ones but also very intricate ones. Please see `maya_launcher.py` for a more complex example.
+This approach to launching applications through custom functions gives you a great deal of flexibility from simple one-liners to complex launch sequences. See `maya_launcher.py` for a more involved example.
 
 ### About Qt Dialogs
 
-BluePepper uses PySide6 for its interface, so it is possible to open your own Qt Dialogs from the Launcher. Let's create a Qt Dialog in a new file `conf/scripts/open_dialog.py`
+BluePepper uses PySide6 for its interface, so you can open your own Qt Dialogs from the Launcher. Let's create one in a new file `conf/scripts/open_dialog.py`:
 
 ```python
 # BluePepper uses qtpy to wrap around PySide6 and PySide2
@@ -414,7 +416,9 @@ def show_dialog():
     dialog = HelloDialog()
     dialog.exec()
 ```
-And add it to the Launcher
+
+Then add it to the Launcher:
+
 ```python
 apps: list[LauncherItem] = [
     LauncherItem(
@@ -427,12 +431,13 @@ apps: list[LauncherItem] = [
 ]
 ```
 
-### About beautiful Qt Dialogs
+### About Beautiful Qt Dialogs
 
-The dialog was dull and sad, isn't it? BluePepper provides custom Qt widgets and dialogs to properly manage the stylesheet, and ensure a coherent look across all widgets.
+The dialog above is rather plain. BluePepper provides custom Qt widgets and dialogs to apply the correct stylesheet and ensure a consistent look across the application.
 
-Here is the new version of `open_dialog.py`
-```
+Here is a polished version of `open_dialog.py`:
+
+```python
 from qtpy.QtWidgets import QPushButton, QVBoxLayout, QWidget
 
 from bluepepper.gui.utils import get_qta_icon
@@ -464,23 +469,23 @@ def show_dialog():
     dialog = ContainerDialog(container)
     dialog.exec()
 ```
-The result will be the same, but with extra style points.
-If you forgot, how to use QTAwesome icons, see [Adding icons to menu actions][#adding-icons-to-menu-actions]
+
+The result will be identical in functionality, but with considerably more style. If you need a reminder on how to use QtAwesome icons, see [Adding Icons to Menu Actions](#adding-icons-to-menu-actions).
 
 # Design Philosophy
 
-BluePepper makes minimal use of complex software architecture, which is generally considered a best practice. However, modular architectures can be difficult to code, test, update, and deploy.
+BluePepper makes minimal use of complex software architecture. While modular architectures are often considered best practice, they can be difficult to code, test, update, and deploy.
 
 BluePepper's structure is intentionally simple: you download the source code, run the installer, and it works.
 
-Several design choices were made to simplify BluePepper's architecture:
+Several design choices were made to keep things lean:
 
-- **Python Configuration Files**: BluePepper could use JSON, YAML, or TOML for configuration files, but Python files unlock two important capabilities: the ability to configure BluePepper more organically (if/else statements, access to environment variables, etc.) rather than with just static values
-- **One Repository = One Project**: You'll notice that BluePepper has a single `conf` folder. This is intentional. We believe that BluePepper's greatest strength is its simplicity of use
-- **Minimal Use of Plugins/Entry Points**: If you want to add features to BluePepper, you simply create a new Python module, import it, and it works
+- **Python Configuration Files**: BluePepper could use JSON, YAML, or TOML for configuration, but Python files unlock two important capabilities: the ability to configure the application more organically (using if/else statements, environment variable access, etc.) rather than being limited to static values.
+- **One Repository = One Project**: BluePepper has a single `conf` folder, and this is intentional. We believe that simplicity is BluePepper's greatest strength.
+- **Minimal Use of Plugins/Entry Points**: If you want to add features to BluePepper, you simply create a new Python module, import it, and it works.
 
 These choices aim to:
 
-- Lower the barrier to entry for development, particularly for technical directors and tech artists who may not have sufficient experience with complex software architectures
-- Provide excellent development ergonomics: autocompletion at every level, easy configuration
-- Reduce side effects, making it safe to deploy BluePepper to your colleagues without excessive fear of breaking something
+- Lower the barrier to entry for development, particularly for technical directors and tech artists who may not have extensive experience with complex software architectures
+- Provide excellent development ergonomics: autocompletion at every level, straightforward configuration
+- Reduce side effects, making it safe to deploy BluePepper to your colleagues without undue risk of breaking anything
